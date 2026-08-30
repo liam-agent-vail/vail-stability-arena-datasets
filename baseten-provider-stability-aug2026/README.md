@@ -4,6 +4,12 @@
 
 Baseten serves 9 models in the Arena. Analysis covers *stability*, *error rates*, and *latency* across all models with sufficient monitoring data, plus a look at Baseten's improvement over time — particularly for large models.
 
+**Key Takeaways:**
+- **Latency:** Baseten is the fastest or second-fastest provider on nearly every model it serves, often 5–20x faster than the provider median on large (200B+) models.
+- **Stability:** Baseten's behavioral consistency is competitive (0.967–1.000), ranking mid-pack to top-tier depending on the model.
+- **Error Rates:** Baseten has the second-lowest error rate of any provider at 0.13%, with zero errors on multiple models.
+- **Stack Improvement:** Over 7 months, Baseten has meaningfully improved both speed (32–45% faster) and stability (0.962 → 0.989) — likely driven by R&D investment in custom quantization and serving optimizations, which also explains its elevated output divergence from providers using more standard configurations.
+
 > **Note on latency metric:** Generation time is total wall-clock time for a standardized fingerprinting workload (800 API calls per run with fixed concurrency). Lower = faster inference throughput. Same workload across all providers.
 
 ---
