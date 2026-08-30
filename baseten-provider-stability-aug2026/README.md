@@ -10,8 +10,6 @@ Baseten serves 9 models in the Arena. Analysis covers *stability*, *error rates*
 - **Error Rates:** Baseten has the second-lowest error rate of any provider at 0.13%, with zero errors on multiple models.
 - **Stack Improvement:** Over 7 months, Baseten has meaningfully improved both speed (32–45% faster) and stability (0.962 → 0.989) — likely driven by R&D investment in custom quantization and serving optimizations, which also explains its elevated output divergence from providers using more standard configurations.
 
-> **Note on workload latency:** This is total wall-clock time for a standardized fingerprinting workload (40 inputs × 20 runs = 800 API calls per run, with fixed concurrency). It measures end-to-end throughput, not per-call latency. Same workload and config across all providers.
-
 ---
 
 ## Summary
@@ -33,7 +31,7 @@ This is where Baseten stands out most. Across nearly every model it serves, Base
 | Model (approx size) | Period | Baseten Rank | vs Provider Median |
 |---|:-:|:-:|:-:|
 | Kimi K2.5 (~400B MoE) | Feb–May 2026 | #1 of 7 | 7–14x faster |
-| Kimi K2.6 (~400B MoE) | May–Aug 2026 | #1 of 5 | 8–9x faster |
+| Kimi K2.6 | May–Aug 2026 | #1 of 5 | 8–9x faster |
 | Kimi K2 Instruct (~400B MoE) | Feb 2026 | #1 of 8 | 3.6x faster |
 | Kimi K3 (~400B MoE) | Aug 2026 | #1 of 5 | 2.6x faster |
 | GLM-4.7 (~200B+) | Feb–Mar 2026 | #1 of 8 | 12–20x faster |
@@ -48,7 +46,7 @@ The speed advantage is most dramatic on larger models (200B+), where Baseten is 
 
 Two signals suggest yes:
 
-**Within a single model:** Kimi K2.6 (~400B MoE), which Baseten served continuously from May through August 2026, shows a clear improvement: p50 latency dropped from 905s to 493s — a 45% speed improvement over 4 months.
+**Within a single model:** Kimi K2.6, which Baseten served continuously from May through August 2026, shows a clear improvement: p50 latency dropped from 905s to 493s — a 45% speed improvement over 4 months.
 
 **Across the Kimi model family:** Baseten served four generations of Kimi models (~400B MoE class) spanning the full Feb–Aug monitoring window:
 
