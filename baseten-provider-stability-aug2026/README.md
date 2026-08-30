@@ -30,10 +30,10 @@ This is where Baseten stands out most. Across nearly every model it serves, Base
 
 | Model (approx size) | Period | Baseten Rank | vs Provider Median |
 |---|:-:|:-:|:-:|
-| Kimi K2.5 (~400B MoE) | Feb–May 2026 | #1 of 7 | 7–14x faster |
-| Kimi K2.6 | May–Aug 2026 | #1 of 5 | 8–9x faster |
-| Kimi K2 Instruct (~400B MoE) | Feb 2026 | #1 of 8 | 3.6x faster |
-| Kimi K3 (~400B MoE) | Aug 2026 | #1 of 5 | 2.6x faster |
+| Kimi K2.5 (1T MoE, 32B active) | Feb–May 2026 | #1 of 7 | 7–14x faster |
+| Kimi K2.6 (1T MoE, 32B active) | May–Aug 2026 | #1 of 5 | 8–9x faster |
+| Kimi K2 Instruct (1T MoE, 32B active) | Feb 2026 | #1 of 8 | 3.6x faster |
+| Kimi K3 (2.8T MoE) | Aug 2026 | #1 of 5 | 2.6x faster |
 | GLM-4.7 (~200B+) | Feb–Mar 2026 | #1 of 8 | 12–20x faster |
 | GLM-5 (~200B+) | Mar–Apr 2026 | #1 of 9 | 5x faster |
 | Nemotron Ultra (253B MoE) | Jun–Aug 2026 | #1–2 of 4 | 2–3x faster |
@@ -46,9 +46,9 @@ The speed advantage is most dramatic on larger models (200B+), where Baseten is 
 
 Two signals suggest yes:
 
-**Within a single model:** Kimi K2.6, which Baseten served continuously from May through August 2026, shows a clear improvement: p50 latency dropped from 905s to 493s — a 45% speed improvement over 4 months.
+**Within a single model:** Kimi K2.6 (1T total / 32B active MoE), which Baseten served continuously from May through August 2026, shows a clear improvement: p50 latency dropped from 905s to 493s — a 45% speed improvement over 4 months.
 
-**Across the Kimi model family:** Baseten served four generations of Kimi models (~400B MoE class) spanning the full Feb–Aug monitoring window:
+**Across the Kimi model family:** Baseten served four generations of Kimi models (trillion-parameter MoE class — 1T total for K2/K2.5/K2.6, 2.8T for K3) spanning the full Feb–Aug monitoring window:
 
 | Model | Period | Baseten p50 |
 |---|:-:|:-:|
@@ -57,7 +57,7 @@ Two signals suggest yes:
 | Kimi K2.6 | May–Aug 2026 | 905s → 493s |
 | Kimi K3 | Aug 2026 | 2,561s |
 
-Each generation is a different model with different architectures, so direct comparison is imperfect. But across similarly-sized models, Baseten has maintained a consistent #1 speed ranking while the absolute latency on Kimi K2.6 improved significantly. The Kimi K3 latency is higher, likely reflecting a larger or more complex model rather than a serving regression — Baseten still ranks #1 of 5 providers on K3.
+Each generation is a different model with different architectures, so direct comparison is imperfect. Across the 1T-class models (K2/K2.5/K2.6), Baseten has maintained a consistent #1 speed ranking while the absolute latency on Kimi K2.6 improved significantly. The Kimi K3 latency is higher, which tracks with it being a substantially larger model (2.8T total params) rather than a serving regression — Baseten still ranks #1 of 5 providers on K3.
 
 **On GPT-OSS-120B (7-month trend):**
 
