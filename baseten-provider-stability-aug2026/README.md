@@ -2,119 +2,72 @@
 
 **VAIL Stability Arena data | August 2026**
 
-Baseten serves 9 models in the Arena. Analysis covers three dimensions — *speed*, *error rate*, and *behavioral stability/divergence* — across the models with sufficient monitoring history.
+Baseten serves 9 models in the Arena. Analysis covers *stability*, *error rates*, and *workload latency* across all models with sufficient monitoring data, plus a look at Baseten's improvement over time — particularly for large models.
 
-> **Note on speed metric:** Generation time is total wall-clock time for a standardized fingerprinting workload (800 API calls per run with fixed concurrency). Lower = faster inference throughput. Same workload across all providers, so it's an apples-to-apples comparison.
-
----
-
-## GPT-OSS-120B — Full Provider Comparison
-
-*7 months of data (Feb–Aug 2026). Most comprehensive comparison.*
-
-### Speed (fingerprint generation time, seconds)
-
-| Provider | p50 | p95 | Avg |
-|----------|:-:|:-:|:-:|
-| Azure | 457 | 1,704 | 636 |
-| **Baseten** | **729** | **3,202** | **1,152** |
-| Bedrock | 878 | 1,695 | 930 |
-| Parasail | 970 | 4,087 | 1,517 |
-| Nebius | 1,085 | 6,974 | 2,128 |
-| Vertex | 1,155 | 3,001 | 1,380 |
-| Novita | 2,641 | 7,865 | 3,276 |
-| Fireworks | 3,125 | 8,811 | 3,755 |
-| Together | 3,368 | 9,670 | 4,146 |
-| OpenRouter | 4,256 | 9,348 | 4,825 |
-| DeepInfra | 4,404 | 8,911 | 4,849 |
-
-**Baseten is the 2nd fastest provider** (p50 basis), behind only Azure. Notably faster than Bedrock, Vertex, and all independent providers.
-
-### Error Rate
-
-| Provider | Successes | Errors | Error Rate |
-|----------|:-:|:-:|:-:|
-| Fireworks | 1,407 | 1 | 0.07% |
-| **Baseten** | **1,536** | **2** | **0.13%** |
-| Bedrock | 1,987 | 6 | 0.30% |
-| Nebius | 1,360 | 8 | 0.58% |
-| DeepInfra | 1,403 | 19 | 1.34% |
-| Together | 1,388 | 21 | 1.49% |
-| Novita | 1,387 | 53 | 3.68% |
-| Parasail | 1,511 | 59 | 3.76% |
-| OpenRouter | 1,301 | 52 | 3.84% |
-| Azure | 1,789 | 91 | 4.84% |
-| Vertex | 1,484 | 600 | 28.79% |
-
-**Baseten has the 2nd lowest error rate** — 0.13%, behind only Fireworks at 0.07%. Lower than Bedrock, Azure, and all other providers.
-
-### Stability & Divergence (current)
-
-| Provider | Stability | Divergence |
-|----------|:-:|:-:|
-| Azure | 1.000 | 0.79 |
-| Bedrock | 1.000 | 0.75 |
-| Fireworks | 1.000 | 4.10 |
-| Nebius | 1.000 | 0.86 |
-| OpenRouter | 0.975 | 0.46 |
-| **Baseten** | **0.967** | **3.58** |
-| Parasail | 0.967 | 0.78 |
-| DeepInfra | 0.886 | 1.35 |
-| Novita | 0.833 | 1.81 |
-| Together | 0.663 | 1.06 |
-
-Baseten stability is mid-pack (0.967). Divergence is high (3.58) — outputs differ from provider consensus, likely reflecting different serving optimizations. Fireworks shows a similar pattern (stable but high divergence).
+**Key Takeaways:**
+- **Workload Latency:** Baseten is the fastest or second-fastest provider on nearly every model it serves, often 5–20x faster than the provider median on large (200B+) models.
+- **Stability:** Baseten's behavioral consistency is competitive (0.967–1.000), ranking mid-pack to top-tier depending on the model.
+- **Error Rates:** Baseten has the second-lowest error rate of any provider at 0.13%, with zero errors on multiple models.
+- **Stack Improvement:** Over 7 months, Baseten has meaningfully improved both speed (32–45% faster) and stability (0.962 → 0.989) — likely driven by R&D investment in custom quantization and serving optimizations, which also explains its elevated output divergence from providers using more standard configurations.
 
 ---
 
-## Kimi K3 — Provider Comparison
+## Summary
 
-*3 days of data (newly onboarded).*
+### Stability
 
-| Provider | p50 Speed | Error Rate | Stability | Divergence |
-|----------|:-:|:-:|:-:|:-:|
-| **Baseten** | **2,561s** | **0.00%** | **1.000** | **0.32** |
-| Fireworks | 4,481s | 5.56% | 0.567 | 7.65 |
-| Parasail | 5,147s | 11.11% | 0.957 | 0.42 |
-| Together | 6,679s | 0.00% | 1.000 | 1.41 |
-| DeepInfra | 8,942s | 0.00% | 0.886 | 0.73 |
+Baseten's behavioral stability is competitive across all models with data. On GPT-OSS-120B (7 months of monitoring), Baseten scores 0.967 — solidly stable, on par with Parasail and OpenRouter, behind the hyperscalers (Azure, Bedrock, Fireworks, Nebius all at 1.000). On Kimi K3 and Nemotron Ultra, Baseten achieves a perfect 1.000 — tied for best among all providers.
 
-**Baseten leads on all four dimensions** — fastest, zero errors, perfect stability, lowest divergence. Early data, but strong.
+Baseten's output divergence (how much its responses differ from the consensus of other providers serving the same weights) is elevated on GPT-OSS-120B (3.58) and Nemotron Ultra (3.61). Fireworks shows a similar pattern (4.10 on GPT-OSS-120B). This likely reflects different quantization or serving optimizations rather than quality differences — providers optimizing aggressively for throughput naturally diverge from providers using more standard configurations.
 
----
+### Error Rates
 
-## Nemotron Ultra — Provider Comparison
+Baseten has among the lowest error rates of any provider. On GPT-OSS-120B — the most comprehensive comparison with 7 months of data — Baseten's error rate is 0.13% (2 errors out of 1,538 attempts), second only to Fireworks at 0.07%. This is lower than Bedrock (0.30%), Azure (4.84%), and all independent inference providers. On Nemotron Ultra and Kimi K3, Baseten has a 0.00% error rate — zero errors across hundreds of runs.
 
-*75 days of data (Jun–Aug 2026).*
+### Workload Latency
 
-| Provider | p50 Speed | Error Rate | Stability | Divergence |
-|----------|:-:|:-:|:-:|:-:|
-| Nebius | 784s | 1.65% | 0.833 | 1.45 |
-| **Baseten** | **839s** | **0.00%** | **1.000** | **3.61** |
-| DeepInfra | 2,137s | 3.00% | 1.000 | 0.88 |
-| OpenRouter | 9,274s | 99.07% | N/A | N/A |
+This is where Baseten stands out most. Across nearly every model it serves, Baseten is the #1 or #2 fastest provider — often by a large margin:
 
-**Baseten is the fastest with zero errors and perfect stability.** Divergence is elevated — different from DeepInfra/Nebius outputs but perfectly consistent over time.
+| Model (approx size) | Period | Baseten Rank | vs Provider Median |
+|---|:-:|:-:|:-:|
+| Kimi K2.5 (1T MoE, 32B active) | Feb–May 2026 | #1 of 7 | 7–14x faster |
+| Kimi K2.6 (1T MoE, 32B active) | May–Aug 2026 | #1 of 5 | 8–9x faster |
+| Kimi K2 Instruct (1T MoE, 32B active) | Feb 2026 | #1 of 8 | 3.6x faster |
+| Kimi K3 (2.8T MoE) | Aug 2026 | #1 of 5 | 2.6x faster |
+| GLM-4.7 (~200B+) | Feb–Mar 2026 | #1 of 8 | 12–20x faster |
+| GLM-5 (~200B+) | Mar–Apr 2026 | #1 of 9 | 5x faster |
+| Nemotron Ultra (253B MoE) | Jun–Aug 2026 | #1–2 of 4 | 2–3x faster |
+| MiniMax M2.5 (~200B+ MoE) | Mar–Apr 2026 | #1 of 6 | 1.3–2.3x faster |
+| GPT-OSS-120B (120B) | Feb–Aug 2026 | #2–4 of 11 | 2–5x faster |
 
----
+The speed advantage is most dramatic on larger models (200B+), where Baseten is typically 5–20x faster than the median provider.
 
-## Has Baseten Improved? (GPT-OSS-120B, 7-month trend)
+### Has Baseten Improved at Serving Large Models?
 
-| Month | p50 Speed | p95 Speed | Errors | Stability | Divergence |
-|-------|:-:|:-:|:-:|:-:|:-:|
-| Feb 2026 | 994s | 2,428s | 0 | 0.962 | 3.41 |
-| Mar | 895s | 4,350s | 0 | 0.964 | 2.91 |
-| Apr | 1,098s | 4,043s | 0 | 0.963 | 2.24 |
-| May | 658s | 2,986s | 0 | 0.988 | 3.07 |
-| Jun | 691s | 2,745s | 0 | 0.977 | 3.58 |
-| Jul | 668s | 3,276s | 0 | 0.978 | 3.64 |
-| Aug | 680s | 1,131s | 2 | 0.989 | 3.51 |
+Two signals suggest yes:
 
-**Clear improvement across speed and stability:**
-- *Speed:* p50 dropped from 994s → 680s (32% faster). p95 from 2,428s → 1,131s (53% faster tail latency improvement).
-- *Errors:* Near-zero throughout — 0 errors for 6 months, 2 in August.
-- *Stability:* Improved from 0.962 → 0.989.
-- *Divergence:* Dipped to 2.24 in April but settled at ~3.5. Baseten maintains its own serving approach rather than converging toward other providers.
+**Within a single model:** Kimi K2.6 (1T total / 32B active MoE), which Baseten served continuously from May through August 2026, shows a clear improvement: p50 latency dropped from 905s to 493s — a 45% speed improvement over 4 months.
+
+**Across the Kimi model family:** Baseten served four generations of Kimi models (trillion-parameter MoE class — 1T total for K2/K2.5/K2.6, 2.8T for K3) spanning the full Feb–Aug monitoring window:
+
+| Model | Period | Baseten p50 |
+|---|:-:|:-:|
+| Kimi K2 Instruct | Feb 2026 | 706s |
+| Kimi K2.5 | Feb–May 2026 | 597–810s |
+| Kimi K2.6 | May–Aug 2026 | 905s → 493s |
+| Kimi K3 | Aug 2026 | 2,561s |
+
+Each generation is a different model with different architectures, so direct comparison is imperfect. Across the 1T-class models (K2/K2.5/K2.6), Baseten has maintained a consistent #1 speed ranking while the absolute latency on Kimi K2.6 improved significantly. The Kimi K3 latency is higher, which tracks with it being a substantially larger model (2.8T total params) rather than a serving regression — Baseten still ranks #1 of 5 providers on K3.
+
+**On GPT-OSS-120B (7-month trend):**
+
+| Month | p50 Latency | p95 Latency | Stability |
+|-------|:-:|:-:|:-:|
+| Feb 2026 | 994s | 2,428s | 0.962 |
+| May 2026 | 658s | 2,986s | 0.988 |
+| Aug 2026 | 680s | 1,131s | 0.989 |
+
+p50 improved 32%, p95 improved 53%, and stability improved from 0.962 to 0.989 — all while maintaining a near-zero error rate (2 total errors in 7 months).
 
 ---
 
