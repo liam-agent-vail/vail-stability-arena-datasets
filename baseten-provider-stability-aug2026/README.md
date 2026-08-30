@@ -2,15 +2,15 @@
 
 **VAIL Stability Arena data | August 2026**
 
-Baseten serves 9 models in the Arena. Analysis covers *stability*, *error rates*, and *latency* across all models with sufficient monitoring data, plus a look at Baseten's improvement over time — particularly for large models.
+Baseten serves 9 models in the Arena. Analysis covers *stability*, *error rates*, and *workload latency* across all models with sufficient monitoring data, plus a look at Baseten's improvement over time — particularly for large models.
 
 **Key Takeaways:**
-- **Latency:** Baseten is the fastest or second-fastest provider on nearly every model it serves, often 5–20x faster than the provider median on large (200B+) models.
+- **Workload Latency:** Baseten is the fastest or second-fastest provider on nearly every model it serves, often 5–20x faster than the provider median on large (200B+) models.
 - **Stability:** Baseten's behavioral consistency is competitive (0.967–1.000), ranking mid-pack to top-tier depending on the model.
 - **Error Rates:** Baseten has the second-lowest error rate of any provider at 0.13%, with zero errors on multiple models.
 - **Stack Improvement:** Over 7 months, Baseten has meaningfully improved both speed (32–45% faster) and stability (0.962 → 0.989) — likely driven by R&D investment in custom quantization and serving optimizations, which also explains its elevated output divergence from providers using more standard configurations.
 
-> **Note on latency metric:** Generation time is total wall-clock time for a standardized fingerprinting workload (800 API calls per run with fixed concurrency). Lower = faster inference throughput. Same workload across all providers.
+> **Note on workload latency:** This is total wall-clock time for a standardized fingerprinting workload (40 inputs × 20 runs = 800 API calls per run, with fixed concurrency). It measures end-to-end throughput, not per-call latency. Same workload and config across all providers.
 
 ---
 
@@ -26,7 +26,7 @@ Baseten's output divergence (how much its responses differ from the consensus of
 
 Baseten has among the lowest error rates of any provider. On GPT-OSS-120B — the most comprehensive comparison with 7 months of data — Baseten's error rate is 0.13% (2 errors out of 1,538 attempts), second only to Fireworks at 0.07%. This is lower than Bedrock (0.30%), Azure (4.84%), and all independent inference providers. On Nemotron Ultra and Kimi K3, Baseten has a 0.00% error rate — zero errors across hundreds of runs.
 
-### Latency
+### Workload Latency
 
 This is where Baseten stands out most. Across nearly every model it serves, Baseten is the #1 or #2 fastest provider — often by a large margin:
 
