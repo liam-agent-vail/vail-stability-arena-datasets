@@ -77,44 +77,44 @@ Stability scores range from 0.0 to 1.0, measuring behavioral consistency over a 
 
 ## Divergence: Does Baseten Serve the Same Model?
 
-Divergence ratios measure how much a provider's outputs differ from the consensus of other providers serving the same weights. Near 1.0 = consistent. Well above 1.0 = the provider is producing notably different behavior.
+Divergence ratios measure how much a provider's outputs differ from the consensus of other providers serving the same weights. Near 1.0 = aligned with consensus. Well above 1.0 = the provider's outputs differ notably. Higher divergence doesn't necessarily indicate a problem — it can reflect different quantization schemes, batching strategies, or serving optimizations that are equally valid but produce distinct output distributions.
 
 ### GPT-OSS-120B — 90-Day Divergence Summary
 
 | Provider | Avg Divergence | Min | Max | Assessment |
 |----------|:-:|:-:|:-:|------------|
-| OpenRouter | 0.46 | -0.33 | 1.76 | ✅ Most consistent |
-| Bedrock | 0.75 | 0.04 | 1.95 | ✅ Very consistent |
-| Parasail | 0.78 | 0.14 | 1.89 | ✅ Very consistent |
-| Azure | 0.79 | 0.09 | 1.47 | ✅ Very consistent |
-| Nebius | 0.86 | 0.14 | 1.59 | ✅ Consistent |
-| Together | 1.06 | 0.02 | 4.10 | ⚠️ Some drift |
-| DeepInfra | 1.35 | 0.46 | 3.64 | ⚠️ Moderate divergence |
-| Novita | 1.81 | -0.02 | 3.82 | ⚠️ Notable divergence |
-| **Baseten** | **3.58** | **1.84** | **7.16** | **🔴 High divergence** |
-| Fireworks | 4.10 | 1.96 | 9.05 | 🔴 Highest divergence |
+| OpenRouter | 0.46 | -0.33 | 1.76 | Closest to consensus |
+| Bedrock | 0.75 | 0.04 | 1.95 | Near consensus |
+| Parasail | 0.78 | 0.14 | 1.89 | Near consensus |
+| Azure | 0.79 | 0.09 | 1.47 | Near consensus |
+| Nebius | 0.86 | 0.14 | 1.59 | Near consensus |
+| Together | 1.06 | 0.02 | 4.10 | At consensus |
+| DeepInfra | 1.35 | 0.46 | 3.64 | Moderate divergence |
+| Novita | 1.81 | -0.02 | 3.82 | Notable divergence |
+| **Baseten** | **3.58** | **1.84** | **7.16** | **High divergence** |
+| Fireworks | 4.10 | 1.96 | 9.05 | Highest divergence |
 
-**Baseten's GPT-OSS-120B outputs diverge significantly from the provider consensus** — second only to Fireworks. This suggests meaningful differences in quantization, system prompts, or inference configuration compared to the majority of providers.
+**Baseten's GPT-OSS-120B outputs differ significantly from the provider consensus** — second only to Fireworks. This likely reflects different serving optimizations (quantization, batching, inference engine). Whether this divergence matters depends on the use case: for applications that need reproducibility across providers, it's worth noting; for applications that just need quality and consistency from a single provider, Baseten's high stability score matters more than its divergence.
 
 ### Nemotron Ultra — 75-Day Divergence Summary
 
 | Provider | Avg Divergence | Min | Max | Assessment |
 |----------|:-:|:-:|:-:|------------|
-| DeepInfra | 0.88 | 0.48 | 1.32 | ✅ Consistent |
-| Nebius | 1.45 | 0.51 | 2.78 | ⚠️ Some drift |
-| **Baseten** | **3.61** | **0.87** | **9.04** | **🔴 High divergence** |
+| DeepInfra | 0.88 | 0.48 | 1.32 | Closest to consensus |
+| Nebius | 1.45 | 0.51 | 2.78 | Moderate divergence |
+| **Baseten** | **3.61** | **0.87** | **9.04** | **High divergence** |
 
-**Same pattern**: Baseten serves the model stably, but its outputs differ substantially from other providers.
+**Same pattern**: Baseten serves the model stably, but its output distribution differs from the other providers. With only 3 providers in the comparison set, the "consensus" is thin — Baseten may simply be using a different (not worse) optimization approach.
 
 ### Kimi K3 — Early Divergence (3 days of data)
 
 | Provider | Avg Divergence | Assessment |
 |----------|:-:|------------|
-| **Baseten** | **0.32** | **✅ Very consistent** |
-| Parasail | 0.42 | ✅ Consistent |
-| DeepInfra | 0.73 | ✅ Consistent |
-| Together | 1.41 | ⚠️ Some drift |
-| Fireworks | 7.65 | 🔴 High divergence |
+| **Baseten** | **0.32** | **Closest to consensus** |
+| Parasail | 0.42 | Near consensus |
+| DeepInfra | 0.73 | Near consensus |
+| Together | 1.41 | Moderate divergence |
+| Fireworks | 7.65 | High divergence |
 
 Early data suggests Baseten's Kimi K3 serving is well-aligned with consensus (though only 3 days of data).
 
@@ -152,11 +152,11 @@ Divergence dropped dramatically from June to July (potentially a config fix), bu
 
 1. **Baseten's stability is competitive.** Across all models with data, Baseten scores 0.967–1.000, placing it in the "stable" to "excellent" range. It's not the best (hyperscalers like Bedrock consistently hit 1.000), but it's reliably above 0.9.
 
-2. **Baseten's divergence is a concern.** On 2 of 3 models with sufficient data, Baseten's outputs diverge significantly from the provider consensus. This doesn't mean the outputs are wrong — it means they're different from what most other providers produce from the same weights. This could indicate different quantization, custom optimizations, or system-level prompt injection.
+2. **Baseten's outputs diverge from the provider consensus on 2 of 3 models.** This means Baseten produces different output distributions from the majority of other providers serving the same weights. This likely reflects different quantization, serving engines, or optimization choices — not necessarily better or worse quality. Divergence is most relevant for use cases requiring cross-provider reproducibility; for single-provider deployments where consistency over time matters, stability scores are the more meaningful metric.
 
-3. **Modest improvement over 7 months.** Stability scores have trended up (~3% gain). Divergence showed a promising improvement in spring 2026 but regressed. The R&D investment appears to have paid off for *consistency* (fewer behavioral shifts) but not for *alignment with consensus* (outputs still differ from other providers).
+3. **Modest improvement over 7 months.** Stability scores have trended up (~3% gain). Divergence dipped in spring 2026 but returned to prior levels. This suggests Baseten has improved *consistency* (fewer behavioral shifts over time) while maintaining their own serving configuration — they're not converging toward other providers' approaches, which may be a deliberate choice.
 
-4. **Fireworks has similar divergence issues.** Baseten isn't alone — Fireworks shows even higher divergence on GPT-OSS-120B, suggesting this may be a pattern with providers that apply aggressive serving optimizations.
+4. **Fireworks shows a similar divergence pattern.** Fireworks has even higher divergence on GPT-OSS-120B, suggesting providers that invest in custom serving optimizations tend to diverge from the consensus of providers using more standard configurations. This is a natural outcome — providers optimizing for throughput, latency, or cost-efficiency may trade off exact output alignment with other providers.
 
 5. **Too early to judge on most models.** 6 of 9 Baseten endpoints lack sufficient data. As more monitoring data accumulates, the picture will become clearer.
 
