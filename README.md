@@ -77,7 +77,7 @@ Stability scores range from 0.0 to 1.0, measuring behavioral consistency over a 
 
 ## Divergence: Does Baseten Serve the Same Model?
 
-Divergence ratios measure how much a provider's outputs differ from the consensus of other providers serving the same weights. Near 1.0 = consistent. Well above 1.0 = the provider is producing notably different behavior.
+Divergence ratios measure how much a provider's outputs differ from the consensus of other providers serving the same weights, normalized so that 1.0 = the median consistency across providers of the same model. Less than 1.0 = greater-than-median consistency (more aligned than the typical provider); greater than 1.0 = less-than-median consistency (notably more divergent behavior).
 
 ### GPT-OSS-120B — 90-Day Divergence Summary
 
@@ -166,7 +166,7 @@ Divergence dropped dramatically from June to July (potentially a config fix), bu
 
 - **Data source:** [VAIL Stability Arena](https://arena.projectvail.com) API
 - **Stability scores:** Behavioral consistency measured over a trailing 72-hour window (0.0–1.0 scale). Based on response fingerprinting across standardized evaluation prompts.
-- **Divergence ratios:** Daily measure of how much one provider's outputs differ from the consensus of all other providers serving the same model. Near 1.0 = aligned, >1.0 = diverging.
+- **Divergence ratios:** Daily measure of how much one provider's outputs differ from the consensus of all other providers serving the same model, normalized so that 1.0 = median consistency across providers of the same model. <1.0 = greater than median consistency, >1.0 = less than median consistency (more divergent).
 - **Monitoring period:** February 6 – August 29, 2026 (GPT-OSS-120B), June–August 2026 (Nemotron Ultra), August 2026 (Kimi K3).
 
 *Analysis by [Project VAIL](https://projectvail.com) — Verifiable AI Layer*
